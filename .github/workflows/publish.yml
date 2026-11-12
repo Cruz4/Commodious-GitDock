@@ -1,45 +1,47 @@
-name: Import GitDock source and publish Windows build
+name: Import source ZIP and release Windows GitDock
 on:
   push:
     paths:
-      - ".gitdock-import/source.tar.xz"
+      - "Commodious-GitDock-v1.2-Source.zip"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  publish:
+  import-build-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Check out the public repository
         uses: actions/checkout@v4
-      - name: Import complete application source
+      - name: Extract and publish the complete GitDock source
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f .gitdock-import/source.tar.xz ]; then
-            echo "Source import archive missing; nothing to import."
-            exit 1
-          fi
-          tar -xJf .gitdock-import/source.tar.xz
-          rm -rf .gitdock-import
+          archive="Commodious-GitDock-v1.2-Source.zip"
+          test -f "$archive" || { echo "Upload $archive to repository root first."; exit 1; }
+          mkdir -p "$RUNNER_TEMP/gitdock-source"
+          unzip -q "$archive" -d "$RUNNER_TEMP/gitdock-source"
+          test -f "$RUNNER_TEMP/gitdock-source/Commodious-GitDock/server.js"
+          test -f "$RUNNER_TEMP/gitdock-source/Commodious-GitDock/launcher/main.go"
+          cp -a "$RUNNER_TEMP/gitdock-source/Commodious-GitDock/." .
+          rm -f "$archive"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Import complete GitDock v1.2 source" || true
+          git diff --cached --quiet || git commit -m "Publish complete GitDock v1.2 application source"
           git push origin HEAD:main
-      - name: Install Go
+      - name: Configure Go compiler
         uses: actions/setup-go@v5
         with:
           go-version: "1.22"
-      - name: Build unsigned Windows setup EXE
+      - name: Build unsigned single-file Windows installer
         shell: bash
         run: |
           set -euo pipefail
           cd launcher
           GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-H=windowsgui -s -w" -o ../Commodious-GitDock-Setup.exe .
-      - name: Publish v1.2 release
+      - name: Upload Windows EXE to v1.2 release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
