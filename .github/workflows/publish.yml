@@ -1,8 +1,9 @@
-name: Import source ZIP and release Windows GitDock
+name: Publish GitDock v1.2 for Windows
+
 on:
   push:
     paths:
-      - "Commodious-GitDock-v1.2-Source.zip"
+      - ".gitdock-import/source.tar.xz"
   workflow_dispatch:
 
 permissions:
@@ -12,36 +13,37 @@ jobs:
   import-build-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the public repository
+      - name: Check out repository
         uses: actions/checkout@v4
-      - name: Extract and publish the complete GitDock source
+      - name: Import GitDock source
         shell: bash
         run: |
           set -euo pipefail
-          archive="Commodious-GitDock-v1.2-Source.zip"
-          test -f "$archive" || { echo "Upload $archive to repository root first."; exit 1; }
-          mkdir -p "$RUNNER_TEMP/gitdock-source"
-          unzip -q "$archive" -d "$RUNNER_TEMP/gitdock-source"
-          test -f "$RUNNER_TEMP/gitdock-source/Commodious-GitDock/server.js"
-          test -f "$RUNNER_TEMP/gitdock-source/Commodious-GitDock/launcher/main.go"
-          cp -a "$RUNNER_TEMP/gitdock-source/Commodious-GitDock/." .
-          rm -f "$archive"
+          archive=".gitdock-import/source.tar.xz"
+          test -f "$archive" || { echo "Missing source import archive"; exit 1; }
+          tar --exclude=README.md -xJf "$archive"
+          test -f server.js
+          test -f launcher/main.go
+          rm -rf .gitdock-import
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --cached --quiet || git commit -m "Publish complete GitDock v1.2 application source"
-          git push origin HEAD:main
-      - name: Configure Go compiler
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish GitDock v1.2 application source"
+            git push origin HEAD:main
+          fi
+      - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: "1.22"
-      - name: Build unsigned single-file Windows installer
+      - name: Build Windows EXE
         shell: bash
         run: |
           set -euo pipefail
           cd launcher
           GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-H=windowsgui -s -w" -o ../Commodious-GitDock-Setup.exe .
-      - name: Upload Windows EXE to v1.2 release
+          test -s ../Commodious-GitDock-Setup.exe
+      - name: Publish Windows release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -50,5 +52,5 @@ jobs:
           if gh release view v1.2 --repo "${{ github.repository }}" >/dev/null 2>&1; then
             gh release upload v1.2 Commodious-GitDock-Setup.exe --repo "${{ github.repository }}" --clobber
           else
-            gh release create v1.2 Commodious-GitDock-Setup.exe --repo "${{ github.repository }}" --title "Commodious GitDock v1.2" --notes "Linked Projects, Smart Sync, and one-click Windows installation. The EXE is unsigned; Windows may display an unknown-publisher warning. GitDock may install Node.js, Git and GitHub CLI with winget."
+            gh release create v1.2 Commodious-GitDock-Setup.exe --repo "${{ github.repository }}" --target main --title "Commodious GitDock v1.2" --notes "One-click Windows installer, drag-and-drop GitHub publishing, Linked Projects, and Smart Sync. Unsigned executable; Windows may show an unknown-publisher warning. GitDock may install Git, Node.js and GitHub CLI through winget."
           fi
