@@ -2,7 +2,11 @@
 
 > **Publishing status:** The documentation is public, but the full v1.2 application source and Windows release are not yet on this repository. Upload `Commodious-GitDock-v1.2-Source.zip` at the repository root; the configured GitHub Actions workflow will then attempt to unpack the source and build the Windows release.
 
-**Drop it. Ship it. Sync it.** A local GitHub publisher and linked-project manager by **Jordie Cruz · Commodious Works LLC**.
+**Drop it. Ship it. Sync it.**
+
+GitHub made simple: drag, drop, publish projects, link folders, preview changes, and auto-sync saves from Cursor. By Commodious Works LLC.
+
+A local GitHub project publisher and linked-project manager created by **Jordie Cruz · Commodious Works LLC**.
 
 GitDock lets you drag an entire project, file selection, or ZIP onto GitHub without learning Git. The **Linked Projects + Smart Sync** feature also lets you connect a real Windows project folder one time and keep it up to date with GitHub while working in Cursor or another editor.
 
