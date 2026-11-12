@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Commodious GitDock: drag, drop, and publish projects to GitHub. A simpler uploader by Commodious Works LLC.">
+  <title>GitDock — Commodious Works LLC</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="GitDock by Commodious Works LLC">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M14.5 15.5H9V33h15.8M33.5 15.5H39L31.5 33H26L22 23.5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 8v10m-5-5h10" stroke="#F26BFC" stroke-width="3.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-lines"><span class="brand-name">Git<span>Dock</span></span><span class="brand-by">BY COMM O D I O U S WORKS LLC</span></span>
+      </a>
+      <div class="top-right">
+        <span class="local-pill"><span class="local-dot"></span> RUNNING LOCALLY</span>
+        <button class="account-pill" id="accountBtn" type="button"><span class="account-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.3 3.3 0 0 0-.9-2.6c3-.3 6.1-1.5 6.1-6.8 0-1.5-.5-2.7-1.3-3.7.2-.6.6-2.4-.2-3.6 0 0-1.2-.4-3.8 1.4a13 13 0 0 0-7 0C5.3.9 4.1 1.3 4.1 1.3c-.8 1.2-.4 3-.2 3.6-.8 1-1.3 2.2-1.3 3.7 0 5.3 3.1 6.5 6.1 6.8A3.3 3.3 0 0 0 8 18.1V22" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="accountLabel">Checking GitHub…</span><span class="account-chevron">↗</span></button>
+      </div>
+    </header>
+    <main>
+      <div class="hero">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE EASY WAY TO GITHUB <span class="tiny-star">✦</span></div>
+        <h1>Make something.<br><span>Drop it. Ship it.</span></h1>
+        <p>Folders, projects, ZIPs, and files. No terminal commands. No confusing Git steps. Just a straight shot from your computer to GitHub.</p>
+        <div class="how-it-works"><span class="how-active">01 <b>Add files</b></span><span class="how-arrow">→</span><span>02 <b>Choose destination</b></span><span class="how-arrow">→</span><span>03 <b>Publish</b></span></div>
+      </div>
+      <div class="layout">
+        <section class="workspace" aria-label="Upload project files">
+          <div class="section-heading"><div><span class="section-kicker">STEP 01</span><h2>Your project files</h2></div><button type="button" class="text-btn hidden" id="clearBtn">Clear all <span>×</span></button></div>
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Drop files or folders here, or press Enter to browse">
+            <div class="drop-grid"></div>
+            <div class="upload-icon"><svg viewBox="0 0 60 60" fill="none" aria-hidden="true"><path d="M8.5 20.5V14a5 5 0 0 1 5-5h12l5.5 6h15.5a5 5 0 0 1 5 5v24.5a5 5 0 0 1-5 5h-33a5 5 0 0 1-5-5v-24Z" fill="#1C2840" stroke="#7485AB" stroke-width="2.1"/><path d="M30 38V23m0 0-6 6m6-6 6 6" stroke="#ED72FC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="drop-title">Drag your project here</div>
+            <div class="drop-subtitle">Drop entire folders, individual files, or ZIP archives</div>
+            <div class="drop-actions"><button type="button" class="pick-btn pick-primary" id="folderBtn"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5.5a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-10Z" stroke-linejoin="round"/></svg> Choose folder</button><button type="button" class="pick-btn pick-secondary" id="fileBtn">Choose files</button></div>
+            <div class="drop-footer">You can add multiple folders and files together</div>
+          </div>
+          <input id="folderPicker" type="file" webkitdirectory directory multiple hidden>
+          <input id="filePicker" type="file" multiple hidden>
+          <div id="filePanel" class="file-panel hidden">
+            <div class="file-head"><div class="file-head-title"><span class="mini-folder">▤</span> Ready to upload <span id="countBadge" class="count-badge">0</span></div><button type="button" id="addMoreBtn" class="add-more">+ Add more</button></div>
+            <div class="file-summary"><span id="fileTotal">0 files</span><span class="middle-dot">•</span><span id="sizeTotal">0 B</span><span class="middle-dot">•</span><span id="rootTotal">0 folders</span></div>
+            <div class="file-list" id="fileList"></div>
+            <div class="file-overflow hidden" id="fileOverflow"></div>
+            <div class="file-notice hidden" id="fileNotice"></div>
+          </div>
+          <div class="trust-strip"><span class="trust-icon">✓</span><div><strong>Private by design.</strong> Files stay on your computer until you click Publish. GitDock runs on localhost and uses GitHub's official sign-in.</div></div>
+        </section>
+        <aside class="sidebar" aria-label="GitHub destination and publishing">
+          <div class="destination-card">
+            <div class="section-heading card-heading"><div><span class="section-kicker">STEP 02</span><h2>Where's it going?</h2></div><span class="branch-art">⑂</span></div>
+            <label class="form-label">GITHUB DESTINATION</label>
+            <div class="mode-select" role="group" aria-label="Destination type"><button id="newMode" class="mode active" type="button">+ New repository</button><button id="existingMode" class="mode" type="button">Existing repository</button></div>
+            <div id="newFields">
+              <label class="form-label" for="repoName">REPOSITORY NAME</label>
+              <div class="field-wrap"><span class="field-prefix">/</span><input id="repoName" type="text" autocomplete="off" maxlength="100" spellcheck="false" placeholder="my-awesome-project"></div>
+              <label class="form-label" for="description">DESCRIPTION <span class="optional">(OPTIONAL)</span></label>
+              <input id="description" class="text-field" type="text" maxlength="300" placeholder="What did you build?">
+              <label class="form-label">VISIBILITY</label>
+              <div class="visibility-options"><label class="visibility-choice selected" id="privateChoice"><input type="radio" name="visibility" value="private" checked><span class="visibility-icon">♙</span><span><strong>Private</strong><small>Only you can see</small></span><span class="radio-visual"></span></label><label class="visibility-choice" id="publicChoice"><input type="radio" name="visibility" value="public"><span class="visibility-icon">◎</span><span><strong>Public</strong><small>Anyone can see</small></span><span class="radio-visual"></span></label></div>
+            </div>
+            <div id="existingFields" class="hidden"><label class="form-label" for="repoSelect">SELECT REPOSITORY</label><select id="repoSelect" class="text-field"><option value="">Sign in to load repositories</option></select><button type="button" id="refreshRepos" class="small-link">↻ Refresh repositories</button><label class="form-label" for="repoManual">OR ENTER A REPOSITORY DIRECTLY</label><input id="repoManual" class="text-field" type="text" autocomplete="off" spellcheck="false" placeholder="owner/repository-name"><p class="field-help">Use this for organization repositories or repositories not shown above. Updates matching files; other files are preserved.</p></div>
+            <div class="field-separator"></div>
+            <label class="form-label" for="commitMessage">COMMIT MESSAGE <span class="optional">(OPTIONAL)</span></label>
+            <input id="commitMessage" class="text-field" type="text" maxlength="300" value="Upload project via Commodious GitDock">
+            <div class="advanced-head"><button type="button" id="advancedToggle" aria-expanded="false">Advanced options <span id="advancedChevron">⌄</span></button></div>
+            <div id="advancedOptions" class="advanced-options hidden"><label class="checkbox-row"><input type="checkbox" id="stripRoot" checked><span>Place single project's contents at repo root</span></label><label class="checkbox-row"><input type="checkbox" id="extractZip" checked><span>Automatically unpack ZIP archives</span></label><label class="form-label advanced-label" for="subfolder">OPTIONAL SUBFOLDER IN REPOSITORY</label><input id="subfolder" class="text-field" type="text" placeholder="e.g. projects/demo" autocomplete="off"></div>
+          </div>
+          <div class="publish-card"><div class="publish-title"><span class="publish-spark">✳</span><span>READY WHEN YOU ARE</span></div><p>One click creates the repo, adds your files, commits, and pushes everything to GitHub.</p><button type="button" id="publishBtn" class="publish-button"><span id="publishLabel">Publish to GitHub</span><span class="publish-arrow">↗</span></button><div class="publish-hint" id="publishHint">Add a project to get started</div></div>
+        </aside>
+      </div>
+      <section class="links-panel" id="linksPanel" aria-label="Linked Projects">
+        <div class="links-topline">
+          <div>
+            <span class="section-kicker">PROJECT MANAGER</span>
+            <h2>Linked Projects <span class="links-star">✳</span> Smart Sync</h2>
+            <p>Connect a folder once. See every change. Sync manually or automatically whenever you save in Cursor, VS Code, or another editor.</p>
+          </div>
+          <span class="links-label">LOCAL FOLDER ↔ GITHUB</span>
+        </div>
+        <div class="links-add">
+          <div class="links-field links-path"><label for="linkRoot">LOCAL PROJECT FOLDER</label><div class="links-pathrow"><input id="linkRoot" class="text-field" autocomplete="off" placeholder="G:\PlotForm 2027\PloForm App 2027"><button id="linkBrowse" type="button" class="pick-btn pick-secondary">Browse…</button></div></div>
+          <div class="links-field links-repo"><label for="linkRepo">GITHUB REPOSITORY</label><input id="linkRepo" class="text-field" list="linkRepos" autocomplete="off" spellcheck="false" placeholder="owner/repository"><datalist id="linkRepos"></datalist></div>
+          <div class="links-field links-branch"><label for="linkBranch">BRANCH</label><input id="linkBranch" class="text-field" autocomplete="off" spellcheck="false" placeholder="Default (main)"></div>
+          <button id="linkProjectBtn" class="pick-btn pick-primary links-create" type="button">+ Link Project</button>
+        </div>
+        <p class="links-helper">Linking does not upload anything. Your original folder is never converted or overwritten. Each new link starts in Review &amp; Sync mode, and Auto-Sync must be explicitly enabled.</p>
+        <div id="linksError" class="links-error hidden" role="alert"></div>
+        <div id="linkedProjects" class="links-list"><div class="links-empty">No linked folders yet. Connect one above to get started.</div></div>
+        <div class="links-safety">🛡 <strong>Safe syncing:</strong> sensitive files and build folders are excluded; existing GitHub-only files are preserved. Remote updates are checked before pushing. Auto-Sync pauses if there is a conflict or potential secret. Deletions are disabled unless you opt in.</div>
+      </section>
+      <section id="progressPanel" class="progress-panel hidden" aria-live="polite">
+        <div class="progress-top"><span class="progress-mini">UPLOAD STATUS</span><span id="progressPercent">0%</span></div>
+        <h2 id="progressHeading">Preparing your project…</h2><p id="progressDetail">Starting a secure upload.</p>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-log" id="progressLog"></div>
+        <div id="successLinks" class="success-links hidden"><a id="repoLink" href="https://github.com" target="_blank" rel="noopener noreferrer" class="success-open">Open GitHub repository ↗</a><button type="button" id="newUploadBtn" class="success-new">Start a new upload</button></div>
+      </section>
+    </main>
+    <footer class="footer"><div class="footer-left"><span class="footer-mark">CW<span>✳</span></span><span>© 2026 <strong>Commodious Works LLC</strong></span><span class="footer-divider"></span><span>Created by Jordie Cruz</span></div><div class="footer-right"><span>Built for makers, by makers.</span><span class="footer-tag">GITDOCK V1.2</span></div></footer>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script src="/app-config.js"></script><script src="/app.js"></script><script src="/links.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+COMM O D I O U S  G I T D O C K  v1.2
+By Jordie Cruz | Commodious Works LLC
+
+FOR WINDOWS USERS:
+------------------
+Download and double-click Commodious-GitDock-Setup.exe.
+That's the ONLY file you need for installation and opening GitDock.
+
+If Windows asks to approve installing Node.js, Git, or GitHub CLI,
+follow the on-screen prompts. Then sign in to GitHub using its own login.
+The installer creates a desktop and Start menu shortcut.
+
+TO SYNC CURSOR PROJECTS:
+------------------------
+1. Go to the Linked Projects section in GitDock.
+2. Browse to your local project folder.
+3. Select an existing GitHub repository and branch, then Link Project.
+4. Review the changes and Sync Now, or select Auto-Sync on save.
+5. Switch between Review & Sync, Auto-Sync, or Off any time.
+
+The actual project folder is not modified by GitDock.
+Auto-Sync works while GitDock's local server is running.
+
+FOR DEVELOPERS:
+---------------
+Read README.md for source code, build steps, and security details.
