@@ -1,6 +1,12 @@
 # Commodious GitDock v1.2
 
-> **Publishing status:** The documentation is public, but the full v1.2 application source and Windows release are not yet on this repository. Upload `Commodious-GitDock-v1.2-Source.zip` at the repository root; the configured GitHub Actions workflow will then attempt to unpack the source and build the Windows release.
+## Download GitDock for Windows
+
+**[Download Commodious-GitDock-Setup.exe (v1.2)](https://github.com/Cruz4/Commodious-GitDock/releases/download/v1.2/Commodious-GitDock-Setup.exe)**
+
+[Release notes and other downloads](https://github.com/Cruz4/Commodious-GitDock/releases/tag/v1.2) · [Full source code](https://github.com/Cruz4/Commodious-GitDock)
+
+This is a single Windows 64-bit EXE. Double-click to install and launch. On first run, it may offer to install Node.js, Git and GitHub CLI via Windows Package Manager. You will need to sign in to GitHub separately. The executable is **unsigned** and may show an unknown-publisher warning on Windows.
 
 **Drop it. Ship it. Sync it.**
 
